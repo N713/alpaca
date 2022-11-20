@@ -1,0 +1,291 @@
+.menu {
+    width: 100%;
+    max-width: 375px;
+    transition: all 0.6s;
+    min-height: 940px;
+    background-color: $black;
+
+    &__submenu,
+    &__submenu-menu {
+        display: none;
+
+        &:hover,
+        &:focus {
+            display: block;
+        }
+    }
+
+    &__item {
+        background-color: $lighterBlack;
+
+        &--red {
+            color: $red;
+        }
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 20px;
+        border-top: 1px solid $black;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:active,
+        &:focus {
+            background-color: $black;
+        }
+
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &--list {
+            &::after {
+                content: '';
+                display: inline-block;
+                width: 8px;
+                height: 6px;
+                margin-left: 10px;
+                background-image: url('../img/icon-arrow.svg');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                transform: rotate(180deg);
+                transition: all 0.2s;
+            }
+
+            /*
+
+            Стили для открытия пунктов подменю без использования js конкретно на планшете и меньше, 
+            но работает не идеально потому принято решения для этих разрешений сделать открытие подменю
+            с помощью js
+
+            &:active,
+            &:focus {
+                &::after {
+                    transform: rotate(0deg);
+                }
+            }
+
+            &:active + .menu__submenu,
+            &:focus + .menu__submenu,
+            &:active + .menu__submenu-menu,
+            &:focus + .menu__submenu-menu {
+                display: block;
+            }
+
+            */
+        }
+
+        &--active {
+            &::after {
+                transform: rotate(0deg);
+            }
+        }
+    
+        &--active + .menu__submenu {
+            display: block;
+        }
+    
+        &--active + .menu__submenu-menu {
+            display: block;
+        }
+    }
+}
+
+@media(min-width: $tablet) {
+    .menu {
+        min-height: auto;
+        max-width: 100%;
+
+        &__link {
+            padding: 0;
+            border-top: none;
+
+            &:hover {
+                color: $red;
+            }
+
+            &--list {
+                &:hover {
+                    background-color: $black;
+
+                    &::after {
+                        transform: rotate(0deg);
+                    }
+                }
+
+                &:hover + .menu__submenu,
+                &:hover + .menu__submenu-menu {
+                    display: block;
+                }
+            }
+
+            span {
+                max-width: 125px;
+            }
+        }
+
+        &__wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: $nav;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        &__item {
+            background-color: transparent;
+            margin-right: 10px;
+            position: relative;
+
+            &:last-of-type {
+                margin-right: 0;
+            }
+
+            &:hover > .menu__link--list {
+                &::after {
+                    transform: rotate(0deg);
+                }
+            }
+
+            &:hover .menu__submenu {
+                .menu__link {
+                    &--list {
+                        &:hover {
+                            &::after {
+                                transform: rotate(90deg);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &__submenu,
+        &__submenu-menu {
+            position: absolute;
+
+            &:hover {
+                display: block;
+            }
+
+            .menu__link {
+                span {
+                    max-width: 100%;
+                }
+            }
+        }
+
+        &__submenu {
+            top: 49px;
+            border-radius: 0px 0px 8px 8px;
+            padding-top: 35px;
+            margin-top: -35px;
+            position: absolute;
+            max-width: 320px;
+
+            &::before {
+                content: '';
+                width: 20px;
+                height: 20px;
+                background-color: $lighterBlack;
+                position: absolute;
+                top: 25px;
+                left: 50px;
+                transform: rotate(45deg);
+            }
+
+            .menu__link {
+                background-color: $lighterBlack;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 10px 20px;
+
+                &:hover {
+                    background-color: $black;
+                }
+
+                &--list {
+                    &:hover {
+                        &::after {
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
+
+                &--active {
+                    &::after {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+
+            .menu__item {
+                margin-right: 0;
+
+                &:first-of-type {
+                    .menu__link {
+                        border-top: none;
+                    }
+                }
+
+                &:last-of-type {
+                    .menu__link {
+                        border-radius: 0px 0px 8px 8px;
+                    }
+                }
+
+                &:hover > .menu__link--list {
+                    &::after {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+        }
+
+        &__submenu-menu {
+            position: absolute;
+            right: -210px;
+            bottom: 0;
+            max-width: 215px;
+            padding-left: 22px;
+
+            &::before {
+                content: '';
+                width: 20px;
+                height: 20px;
+                background-color: $lighterBlack;
+                position: absolute;
+                bottom: 13px;
+                left: 12px;
+                transform: rotate(45deg);
+            }
+
+            .menu__item + .menu__item {
+                .menu__link {
+                    border-radius: 0px 0px 0px 0px;
+                }
+            }
+
+            .menu__item {
+                &:first-of-type {
+                    .menu__link {
+                        border-radius: 8px 8px 0px 0px;
+                    }
+                }
+
+                &:last-of-type {
+                    .menu__link {
+                        border-radius: 0px 0px 8px 8px;
+                    }
+                }
+            }
+        }
+    }
+}
